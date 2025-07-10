@@ -3,8 +3,10 @@ from utils import download_audio
 from transcribe import transcribe_audio
 from summarize import summarize_text
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/summarize', methods=['POST'])
 def summarize_video():
@@ -17,8 +19,10 @@ def summarize_video():
 
     transcript = transcribe_audio(audio_path)
     summary = summarize_text(transcript)
-
-    os.remove(audio_path)  # Clean up
+    
+    if os.path.exists(audio_path):
+        os.remove(audio_path)  # Clean up
+        
     return jsonify({"summary": summary})
 
 if __name__ == "__main__":
