@@ -10,6 +10,7 @@ def download_audio(youtube_url):
 
     command = [
         "yt-dlp",
+        "--no-playlist", 
         "-f", "140",
         "-o", filepath,
         youtube_url
